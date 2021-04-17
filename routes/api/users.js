@@ -47,4 +47,16 @@ router.get('/:userId', async (req, res) => {
     .catch(err => globalErrorHandler(err, res, `Error fetching webinars for user: ${userId}`))
 })
 
+/**
+ * Get cloud recordings
+ * https://marketplace.zoom.us/docs/api-reference/zoom-api/cloud-recording/recordingslist
+ */
+router.get('/:userId/recordings', async (req, res) => {
+  const { userId } = req.params;
+  await axios.get(`/users/${userId}/recordings`)
+    .then(response => res.json(response.data))
+    .catch(err => globalErrorHandler(err, res, `Error fetching recordings for user: ${userId}`));
+})
+
+
 module.exports = router;
