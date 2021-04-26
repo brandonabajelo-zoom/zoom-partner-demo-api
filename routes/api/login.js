@@ -17,20 +17,23 @@ const router = express.Router();
 /**
  * Set default headers and zoom api base url for axios
  */
- axios.defaults.headers.common['Content-Type'] = 'application/json'
- axios.defaults.baseURL = 'https://api.zoom.us/v2'
+ axios.defaults.headers.common['Content-Type'] = 'application/json';
+ axios.defaults.baseURL = 'https://api.zoom.us/v2';
 
 /**
  * Login / Generate JWT
  * https://marketplace.zoom.us/docs/guides/auth/jwt#generating-jwts
  */
  router.post('/', (req, res) => {
-   const payload = { iss: process.env.API_KEY, exp: new Date().getTime() + 4000 };
-   const token = jwt.sign(payload, process.env.API_SECRET);
-   axios.defaults.headers.common['Authorization'] = process.env.NODE_ENV === 'production'
-    ? process.env.API_KEY
-    : `Bearer ${token}`
-   res.json({ 'message': 'Authorized with Zoom App Credentials' });
+  const isProduction = process.env.NODE_ENV === 'production';
+  const key = isProduction ? process.env.PROD_KEY : process.env.API_KEY;
+  const secret = isProduction ? process.env.PROD_SECRET : process.env.API_SECRET;
+  const token = jwt.sign({ iss: key, exp: new Date().getTime() + 6000 }, secret);
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+  if (token) {
+    res.json({ 'message': 'Authorized with Zoom App Credentials' });  
+  }
  })
 
  module.exports = router;

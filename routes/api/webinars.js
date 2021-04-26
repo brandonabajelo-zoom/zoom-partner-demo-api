@@ -1,18 +1,12 @@
 const express = require('express');
 const axios = require('axios');
+const qs = require('query-string');
 const globalErrorHandler = require('../../errorHandler')
 
 const router = express.Router();
 
 /**
- * For the purposes of this demo application, creating/updating resources will
- * pass the entire request body as payload to Zoom APIs. In your own implementation, feel free to add
- * as much validation to req.body as you wish. Reference the relevant Zoom API links to see the full description of
- * json configuration options.
- */
-
-/**
- * Get single webinar
+ * Get Single Webinar
  * https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinar
  */
 router.get('/:webinarId', async (req, res) => {
@@ -20,10 +14,10 @@ router.get('/:webinarId', async (req, res) => {
   await axios.get(`/webinars/${webinarId}`)
     .then(response => res.json(response.data))
     .catch(err => globalErrorHandler(err, res, `Error fetching webinar: ${webinarId}`))
-})
+});
 
 /**
- * Create webinar
+ * Create Webinar
  * https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarcreate
  * 
  */
@@ -31,7 +25,7 @@ router.post('/:userId', async (req, res) => {
   await axios.post(`/users/${req.params.userId}/webinars`, req.body)
     .then(response => res.json(response.data))
     .catch(err => globalErrorHandler(err, res, `Error creating webinar`))
-})
+});
 
 /**
  * Delete Webinar
@@ -43,7 +37,7 @@ router.delete('/:webinarId', async (req, res) => {
   await axios.delete(`/webinars/${webinarId}`)
     .then(response => res.json(response.data))
     .catch(err => globalErrorHandler(err, res, `Error deleting webinar ${webinarId}`))
-})
+});
 
 /**
  * Update Webinar
@@ -54,17 +48,40 @@ router.patch('/:webinarId', async (req, res) => {
   await axios.patch(`/webinars/${webinarId}`, req.body)
     .then(response => res.json(response.data))
     .catch(err => globalErrorHandler(err, res, `Error updating webinar ${webinarId}`))
-})
+});
 
 /**
- * Get webinar registrants
+ * Get Webinar Registrants
  * https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarregistrants
  */
 router.get('/:webinarId/registrants', async (req, res) => {
-  const { webinarId } = reg.params;
-  await axios.get(`/webinars/${webinarId}/registrants`)
+  const { webinarId } = req.params;
+  const { status } = req.query;
+  await axios.get(`/webinars/${webinarId}/registrants?${qs.stringify({ status })}`)
     .then(response => res.json(response.data))
     .catch(err => globalErrorHandler(err, res, `Error fetching webinar registrants`))
 })
+
+/**
+ * Update Webinar Registrant Status
+ * https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarregistrantstatus
+ */
+router.put('/:webinarId/registrants/status', async (req, res) => {
+  const { webinarId } = req.params;
+  await axios.put(`/webinars/${webinarId}/registrants/status`, req.body)
+    .then(response => res.json(response.data))
+    .catch(err => globalErrorHandler(err, res, `Error updating registrant status`))
+});
+
+/**
+ * Get Webinar Participants
+ * https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/listwebinarparticipants
+ */
+router.get('/report/:webinarId/participants', async (req, res) => {
+  const { webinarId } = req.params;
+  await axios.get(`/report/webinars/${webinarId}/participants`)
+    .then(response => res.json(response.data))
+    .catch(err => globalErrorHandler(err, res, `Error fetching participants for webinar: ${webinarId}`))
+});
 
 module.exports = router;
