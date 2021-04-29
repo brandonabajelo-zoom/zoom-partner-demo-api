@@ -43,12 +43,16 @@ app.use('/api/dashboard', require('./routes/api/dashboard'));
  *    GET     /api/users --> get active users
  *    POST    /api/users/add --> create user
  *    GET     /api/users/:userId --> get single active user
+ *    GET     /api/users/:userId/settings --> get user settings
+ *    PATCH   /api/users/:userId/settings --> update user settings
  *    PATCH   /api/users/:userId --> update user
  *    DELETE  /api/users/:userId --> delete user
  *    GET     /api/users/:userId/meetings --> get user meetings
  *    GET     /api/users/:userId/webinars --> get user webinars
  *    GET     /api/users/:userId/recordings --> get cloud recordings
  *    GET     /api/users/:userId/meetings/report --> get user meetings report
+ *    GET     /api/users/:userId/settings --> get user settings
+ *    PATCH   /api/users/:userId/settings --> update user settings
  * 
  *    __Webinars__
  *    GET     /api/webinars/:webinarId --> get single webinar
@@ -58,6 +62,7 @@ app.use('/api/dashboard', require('./routes/api/dashboard'));
  *    GET     /api/webinars/:webinarId/registrants --> get webinar registrants
  *    PUT     /api/webinars/:webinarId/registrants/status --> update webinar registrant status
  *    GET     /api/webinars/report/:webinarId/participants --> get webinar participants
+ *    POST    /api/webinars/:webinarId/registrants --> create webinar registrant
  * 
  *    __Meetings__
  *    GET     /api/meetings/:meetingId --> get single meeting

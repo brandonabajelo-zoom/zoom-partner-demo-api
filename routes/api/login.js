@@ -29,11 +29,13 @@ const router = express.Router();
   const key = isProduction ? process.env.PROD_KEY : process.env.API_KEY;
   const secret = isProduction ? process.env.PROD_SECRET : process.env.API_SECRET;
   const token = jwt.sign({ iss: key, exp: new Date().getTime() + 6000 }, secret);
-  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   if (token) {
     res.json({ 'message': 'Authorized with Zoom App Credentials' });  
+  } else {
+    res.json({ 'message': 'Unable to Authorize' });
   }
- })
+ });
 
  module.exports = router;

@@ -11,7 +11,8 @@ const router = express.Router();
  */
 router.get('/', async (req, res) => {
   const { status } = req.query;
-  await axios.get(`/users?${qs.stringify({ status })}`)
+  const { next_page_token  } = req.query;
+  await axios.get(`/users?${qs.stringify({ status, next_page_token })}`)
     .then(response => res.json(response.data))
     .catch(err => globalErrorHandler(err, res, `Error fetching users`))
 });
@@ -26,7 +27,6 @@ router.get('/', async (req, res) => {
     .catch(err => globalErrorHandler(err, res, 'Error creating user'));
  });
 
-
 /**
  * Get Single Active User
  * https://marketplace.zoom.us/docs/api-reference/zoom-api/users/user
@@ -36,6 +36,28 @@ router.get('/:userId', async (req, res) => {
   await axios.get(`/users/${userId}?status=active`)
     .then(response => res.json(response.data))
     .catch(err => globalErrorHandler(err, res, `Error fetching user: ${userId}`))
+});
+
+/**
+ * Get User Settings
+ * https://marketplace.zoom.us/docs/api-reference/zoom-api/users/usersettings
+ */
+router.get('/:userId/settings', async (req, res) => {
+  const { userId } = req.params;
+  await axios.get(`/users/${userId}/settings`)
+    .then(response => res.json(response.data))
+    .catch(err => globalErrorHandler(err, res, `Error fetching settings for user: ${userId}`));
+})
+
+/**
+ * Update User Settings
+ * https://marketplace.zoom.us/docs/api-reference/zoom-api/users/usersettings
+ */
+ router.patch('/:userId/settings', async (req, res) => {
+  const { userId } = req.params;
+  await axios.patch(`/users/${userId}/settings`, req.body)
+    .then(response => res.json(response.data))
+    .catch(err => globalErrorHandler(err, res, `Error updating settings for user: ${userId}`));
 });
 
 /**
@@ -67,7 +89,8 @@ router.patch('/:userId', async (req, res) => {
  */
  router.get('/:userId/meetings', async (req, res) => {
   const { userId } = req.params;
-  await axios.get(`/users/${userId}/meetings`)
+  const { next_page_token  } = req.query;
+  await axios.get(`/users/${userId}/meetings?${qs.stringify({ next_page_token })}`)
     .then(response => res.json(response.data))
     .catch(err => globalErrorHandler(err, res, `Error fetching meetings for user: ${userId}`))
 });
@@ -78,7 +101,8 @@ router.patch('/:userId', async (req, res) => {
  */
  router.get('/:userId/webinars', async (req, res) => {
   const { userId } = req.params;
-  await axios.get(`/users/${userId}/webinars`)
+  const { next_page_token  } = req.query;
+  await axios.get(`/users/${userId}/webinars?${qs.stringify({ next_page_token })}`)
     .then(response => res.json(response.data))
     .catch(err => globalErrorHandler(err, res, `Error fetching webinars for user: ${userId}`))
 });
@@ -89,8 +113,8 @@ router.patch('/:userId', async (req, res) => {
  */
 router.get('/:userId/recordings', async (req, res) => {
   const { userId } = req.params;
-  const { from, to } = req.query;
-  await axios.get(`/users/${userId}/recordings?${qs.stringify({ from, to })}`)
+  const { from, to, next_page_token } = req.query;
+  await axios.get(`/users/${userId}/recordings?${qs.stringify({ from, to, next_page_token })}`)
     .then(response => res.json(response.data))
     .catch(err => globalErrorHandler(err, res, `Error fetching recordings for user: ${userId}`));
 });
@@ -101,8 +125,8 @@ router.get('/:userId/recordings', async (req, res) => {
  */
 router.get('/:userId/meetings/report', async (req, res) => {
   const { userId } = req.params;
-  const { from, to } = req.query;
-  await axios.get(`/report/users/${userId}/meetings?${qs.stringify({ from, to })}`)
+  const { from, to, next_page_token } = req.query;
+  await axios.get(`/report/users/${userId}/meetings?${qs.stringify({ from, to, next_page_token })}`)
     .then(response => res.json(response.data))
     .catch(err => globalErrorHandler(err, res, `Error fetching meeting report for user: ${userId}`));
 });

@@ -56,11 +56,11 @@ router.patch('/:webinarId', async (req, res) => {
  */
 router.get('/:webinarId/registrants', async (req, res) => {
   const { webinarId } = req.params;
-  const { status } = req.query;
-  await axios.get(`/webinars/${webinarId}/registrants?${qs.stringify({ status })}`)
+  const { status, next_page_token } = req.query;
+  await axios.get(`/webinars/${webinarId}/registrants?${qs.stringify({ status, next_page_token })}`)
     .then(response => res.json(response.data))
     .catch(err => globalErrorHandler(err, res, `Error fetching webinar registrants`))
-})
+});
 
 /**
  * Update Webinar Registrant Status
@@ -79,9 +79,21 @@ router.put('/:webinarId/registrants/status', async (req, res) => {
  */
 router.get('/report/:webinarId/participants', async (req, res) => {
   const { webinarId } = req.params;
-  await axios.get(`/report/webinars/${webinarId}/participants`)
+  const { next_page_token  } = req.query;
+  await axios.get(`/report/webinars/${webinarId}/participants?${qs.stringify({ next_page_token })}`)
     .then(response => res.json(response.data))
     .catch(err => globalErrorHandler(err, res, `Error fetching participants for webinar: ${webinarId}`))
+});
+
+/**
+ * Create Webinar Registrant
+ * https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarregistrantcreate
+ */
+router.post('/:webinarId/registrants', async (req, res) => {
+  const { webinarId } = req.params;
+  await axios.post(`/webinars/${webinarId}/registrants`, req.body)
+    .then(response => res.json(response.data))
+    .catch(err => globalErrorHandler(err, res, `Error creating registrant for webinar: ${webinarId}`));
 });
 
 module.exports = router;

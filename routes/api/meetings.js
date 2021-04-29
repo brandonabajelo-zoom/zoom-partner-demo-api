@@ -1,5 +1,6 @@
 const express = require('express');
 const axios = require('axios');
+const qs = require('query-string');
 const globalErrorHandler = require('../../errorHandler')
 
 const router = express.Router();
@@ -50,12 +51,13 @@ router.delete('/:meetingId', async (req, res) => {
 });
 
 /**
- * Get past meeting participants
+ * Get meeting participants
  * https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/pastmeetingparticipants
  */
 router.get('/report/:meetingId/participants', async (req, res) => {
   const { meetingId } = req.params;
-  await axios.get(`/report/meetings/${meetingId}/participants`)
+  const { next_page_token  } = req.query;
+  await axios.get(`/report/meetings/${meetingId}/participants?${qs.stringify({ next_page_token })}`)
     .then(response => res.json(response.data))
     .catch(err => globalErrorHandler(err, res, `Error fetching participants for meeting: ${meetingId}`))
 });
