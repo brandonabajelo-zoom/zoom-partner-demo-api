@@ -1,6 +1,6 @@
 # Zoom-Partner-Demo-Api
 
-This repo contains an [Express.js](https://expressjs.com/) API which provides examples of how to communicate with various [Zoom API's](https://marketplace.zoom.us/docs/api-reference/zoom-api). This api is intended to be used in conjunction with the [Zoom-Partner-Demo-UI](https://github.com/brandonabajelo-zoom/zoom-partner-demo-ui).
+[Express.js](https://expressjs.com/) API which provides examples of how to communicate with various [Zoom API's](https://marketplace.zoom.us/docs/api-reference/zoom-api). This api is intended to be used in conjunction with the [Zoom-Partner-Demo-UI](https://github.com/brandonabajelo-zoom/zoom-partner-demo-ui).
 
 ## Installation
 
