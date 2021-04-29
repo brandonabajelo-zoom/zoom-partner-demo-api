@@ -51,6 +51,8 @@ This repo contains an [Express.js](https://expressjs.com/) API which provides ex
  *    GET     /api/users/:userId/webinars --> get user webinars
  *    GET     /api/users/:userId/recordings --> get cloud recordings
  *    GET     /api/users/:userId/meetings/report --> get user meetings report
+ *    GET     /api/users/:userId/settings --> get user settings
+ *    PATCH   /api/users/:userId/settings --> update user settings
  
  ### __Webinars__
  *    GET     /api/webinars/:webinarId --> get single webinar
@@ -60,6 +62,7 @@ This repo contains an [Express.js](https://expressjs.com/) API which provides ex
  *    GET     /api/webinars/:webinarId/registrants --> get webinar registrants
  *    PUT     /api/webinars/:webinarId/registrants/status --> update webinar registrant status
  *    GET     /api/webinars/report/:webinarId/participants --> get webinar participants
+ *    POST    /api/webinars/:webinarId/registrants --> create webinar registrant
  
  ###  __Meetings__
  *    GET     /api/meetings/:meetingId --> get single meeting
