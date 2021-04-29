@@ -11,7 +11,8 @@ const router = express.Router();
  */
 router.get('/metrics/meetings', async (req, res) => {
   const { type } = req.query;
-  await axios.get(`/metrics/meetings?${qs.stringify({ type })}`)
+  const { next_page_token  } = req.query;
+  await axios.get(`/metrics/meetings?${qs.stringify({ type, next_page_token })}`)
     .then(response => res.json(response.data))
     .catch(err => globalErrorHandler(err, res, `Error fetching meeting metrics`));
 });
@@ -22,7 +23,8 @@ router.get('/metrics/meetings', async (req, res) => {
  */
 router.get('/metrics/webinars', async (req, res) => {
   const { type } = req.query;
-  await axios.get(`/metrics/webinars?${qs.stringify({ type })}`)
+  const { next_page_token  } = req.query;
+  await axios.get(`/metrics/webinars?${qs.stringify({ type, next_page_token })}`)
     .then(response => res.json(response.data))
     .catch(err => globalErrorHandler(err, res, `Error fetching webinar metrics`));
 });
