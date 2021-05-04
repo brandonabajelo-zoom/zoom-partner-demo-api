@@ -70,6 +70,12 @@ app.use('/api/dashboard', require('./routes/api/dashboard'));
  *    PATCH   /api/meetings/:meetingId --> update meeting
  *    DELETE  /api/meetings/:meetingId --> delete meeting
  *    GET     /api/meetings/report/:meetingId/participants --> get meeting participants
+ * 
+ *    __Dashboard__
+ *    GET     /api/dashboard/metrics/meetings --> get meeting metrics
+ *    GET     /api/dashboard/metrics/webinars --> get webinar metrics
+ *    GET     /api/dashboard/metrics/meetings/:meetingId/participants/:participantId/qos --> get meeting participant QoS
+ *    GET     /api/dashboard/metrics/webinars/:webinarId/participants/:participantId/qos --> get webinar participant QoS
  */
 
 const PORT = process.env.port || 5000;

@@ -10,8 +10,7 @@ const router = express.Router();
  * https://marketplace.zoom.us/docs/api-reference/zoom-api/users/users
  */
 router.get('/', async (req, res) => {
-  const { status } = req.query;
-  const { next_page_token  } = req.query;
+  const { status, next_page_token } = req.query;
   await axios.get(`/users?${qs.stringify({ status, next_page_token })}`)
     .then(response => res.json(response.data))
     .catch(err => globalErrorHandler(err, res, `Error fetching users`))
