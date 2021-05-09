@@ -70,6 +70,7 @@
  *    PATCH   /api/meetings/:meetingId --> update meeting
  *    DELETE  /api/meetings/:meetingId --> delete meeting
  *    GET     /api/meetings/report/:meetingId/participants --> get meeting participants
+ *    DELETE  /api/meetings/:meetingId/recordings --> delete cloud recording
 
  ###  __Dashboard__
  *    GET     /api/dashboard/metrics/meetings --> get meeting metrics
