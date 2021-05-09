@@ -62,4 +62,16 @@ router.get('/report/:meetingId/participants', async (req, res) => {
     .catch(err => globalErrorHandler(err, res, `Error fetching participants for meeting: ${meetingId}`))
 });
 
+/**
+ * Delete meeting recording
+ * https://marketplace.zoom.us/docs/api-reference/zoom-api/cloud-recording/recordingdeleteone
+ */
+router.delete('/:meetingId/recordings', async (req, res) => {
+  const { meetingId } = req.params;
+  const { action } = req.query;
+  await axios.delete(`/meetings/${meetingId}/recordings?${qs.stringify({ action })}`)
+    .then(response => res.json(response.data))
+    .catch(err => globalErrorHandler(err, res, `Error deleting recording for meeting: ${meetingId}`));
+});
+
 module.exports = router;
