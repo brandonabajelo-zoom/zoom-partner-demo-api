@@ -94,6 +94,6 @@ app.use('/api/dashboard', require('./routes/api/dashboard'));
  *    GET     /api/dashboard/metrics/webinars/:webinarId/participants/:participantId/qos --> get webinar participant QoS
  */
 
-const PORT = process.env.port || 5000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log('Zoom Partner Demo API Started'));
