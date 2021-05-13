@@ -21,7 +21,7 @@ app.use([cors(), express.json(), express.urlencoded({ extended: false })]);
 app.options('*', cors());
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(ipFilter(['38.99.100', '38.99.114', '144.178.83', '63.233.134', '135.26.244']));
+  app.use(ipFilter(['38.99.100', '38.99.114', '144.178.83', '63.233.134', '135.26.244'], { mode: 'allow' }));
 
   app.use((err, req, res, next) => {
     if (err instanceof IpDeniedError) {
@@ -29,9 +29,9 @@ if (process.env.NODE_ENV === 'production') {
       res.render('error', {
         message: 'Must connect to VPN',
         error: err,
-      })
+      });
     }
-  })
+  });
 }
 
 /**
