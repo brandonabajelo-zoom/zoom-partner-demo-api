@@ -22,9 +22,9 @@ const app = express()
 app.use([cors(), express.json(), express.urlencoded({ extended: false })]);
 app.options('*', cors());
 app.use((req, res, next) => {
-  const ALLOWED_IPS = ['127.0.0.1', '38.99.100', '38.99.114', '144.178.83', '63.233.134', '135.26.244'];
+  const ALLOWED_IPS = ['::1', '38.99.100', '38.99.114', '144.178.83', '63.233.134', '135.26.244'];
   if (isProduction && !ALLOWED_IPS.includes(req.ip)) {
-    res.status(401);
+    res.status(500);
     return res.send('Connect to the VPN');
   }
   next();
