@@ -9,8 +9,6 @@ if (!isProduction) {
 }
 
 const cors = require('cors');
-const ipFilter = require('express-ipfilter').IpFilter;
-
 /**
  * Web framework for node
  * https://github.com/expressjs/express
@@ -23,20 +21,6 @@ const app = express()
 // Add Middlewares
 app.use([cors(), express.json(), express.urlencoded({ extended: false })]);
 app.options('*', cors());
-
-if (isProduction) {
-  app.use(ipFilter(['38.99.100', '38.99.114', '144.178.83', '63.233.134', '135.26.244'], { mode: 'allow' }));
-
-  app.use((err, req, res, next) => {
-    if (err instanceof IpDeniedError) {
-      res.status(401);
-      res.render('error', {
-        message: 'Must connect to VPN',
-        error: err,
-      });
-    }
-  });
-}
 
 /**
  * For the purposes of this demo application, creating/updating resources will
