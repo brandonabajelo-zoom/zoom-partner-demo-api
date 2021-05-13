@@ -4,7 +4,7 @@
   "description": "express api for creating/joining zoom webinars and meetings",
   "main": "index.js",
   "scripts": {
-    "start": "node index",
+    "start": "node index.js",
     "dev": "nodemon index"
   },
   "author": "Brandon Abajelo",
