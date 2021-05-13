@@ -22,6 +22,16 @@ const app = express()
 app.use([cors(), express.json(), express.urlencoded({ extended: false })]);
 app.options('*', cors());
 
+app.use((req, res, next) => {
+  const ALLOWED_IPS = ['38.99', '144.178', '63.233', '135.26'];
+  const IP = req.headers['x-forwarded-for'] || req.ip || '';
+  const IP_ARRAY = IP.split('.')
+  if (isProduction && !ALLOWED_IPS.includes(`${IP_ARRAY[0]}.${IP_ARRAY[1]}`)) {
+    return res.status(500).json({ message: "Connect to the VPN" });
+  }
+  next();
+});
+
 /**
  * For the purposes of this demo application, creating/updating resources will
  * pass the entire request body as payload to Zoom APIs. In your own implementation, feel free to add
