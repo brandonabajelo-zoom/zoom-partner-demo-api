@@ -32,7 +32,7 @@ const router = express.Router();
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   if (token) {
-    res.json({ 'message': 'Authorized with Zoom App Credentials' });  
+    res.json({ 'message': 'Authorized with Zoom' });  
   } else {
     res.json({ 'message': 'Unable to Authorize' });
   }
