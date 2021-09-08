@@ -21,8 +21,6 @@ app.use([cors(), express.json(), express.urlencoded({ extended: false })]);
 app.options('*', cors());
 
 app.use((req, res, next) => {
-  res.header("Cross-Origin-Embedder-Policy", "require-corp");
-  res.header("Cross-Origin-Opener-Policy", "same-origin");
   const ALLOWED_IPS = ['38.99', '144.178', '63.233', '135.26'];
   const IP = req.headers['x-forwarded-for'] || req.ip || '';
   const IP_ARRAY = IP.split('.')
